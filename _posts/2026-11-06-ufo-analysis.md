@@ -4,6 +4,11 @@ title: "Exploratory Analysis of UFO Sightings: Shapes and Sighting Durations Ove
 author: "Harshal Panda"
 date: 2026-11-06
 ---
+
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
 ## Introduction
 In this assignment, I explore historical UFO reports to uncover patterns in reported object shapes and the statistical distribution of sighting durations across decades. Using Python, Pandas, Altair, and Vega-Lite, I transform raw data and build two complementary visualizations, including an interactive timeline selection filter.
 
@@ -38,3 +43,58 @@ You can inspect the underlying code and raw source materials via the links below
 
 <a class="btn" href="https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/ufo-scrubbed-geocoded-time-standardized-00.csv" target="_blank">The Data</a>
 <a class="btn" href="https://github.com/hp0525/hp0525.github.io/blob/main/python_notebooks/HW5_UFO_Analysis.ipynb" target="_blank">The Analysis</a>
+
+<script>
+  const vis1Spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/ufo-scrubbed-geocoded-time-standardized-00.csv"},
+    "mark": "bar",
+    "encoding": {
+      "x": {"aggregate": "count", "field": "shape", "type": "quantitative", "title": "Number of Sightings"},
+      "y": {"field": "shape", "type": "nominal", "sort": "-x", "title": "UFO Shape"},
+      "color": {"aggregate": "count", "field": "shape", "type": "quantitative", "scale": {"scheme": "viridis"}, "legend": {"title": "Sighting Count"}}
+    },
+    "width": 600,
+    "height": 400
+  };
+  vegaEmbed("#vis1", vis1Spec);
+
+  const vis2Spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/ufo-scrubbed-geocoded-time-standardized-00.csv"},
+    "transform": [
+      {"filter": "datum.datetime != null && datum.duration_seconds != null"},
+      {"calculate": "toNumber(substring(datum.datetime, 6, 10))", "as": "year"},
+      {"filter": "datum.year >= 1940 && datum.duration_seconds > 0"},
+      {"calculate": "log(datum.duration_seconds) / log(10)", "as": "log_duration"}
+    ],
+    "vconcat": [
+      {
+        "width": 600,
+        "height": 300,
+        "mark": {"type": "circle", "opacity": 0.4, "size": 25},
+        "encoding": {
+          "x": {"field": "year", "type": "ordinal", "title": "Year of Sighting"},
+          "y": {"field": "log_duration", "type": "quantitative", "title": "Log10 Duration (seconds)"},
+          "color": {
+            "condition": {"param": "brush", "field": "country", "type": "nominal", "scale": {"scheme": "category10"}, "title": "Country"},
+            "value": "lightgray"
+          },
+          "tooltip": [{"field": "city"}, {"field": "state"}, {"field": "shape"}, {"field": "duration_described"}]
+        }
+      },
+      {
+        "width": 600,
+        "height": 80,
+        "mark": "bar",
+        "params": [{"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}],
+        "encoding": {
+          "x": {"field": "year", "type": "ordinal", "title": "Drag to Select Year Range"},
+          "y": {"aggregate": "count", "type": "quantitative", "title": "Count"},
+          "color": {"value": "darkblue"}
+        }
+      }
+    ]
+  };
+  vegaEmbed("#vis2", vis2Spec);
+</script>
