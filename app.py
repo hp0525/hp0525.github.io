@@ -89,11 +89,11 @@ st.markdown("[The Data Source](https://raw.githubusercontent.com/UIUC-iSchool-Da
 st.markdown("[GitHub Repository](https://github.com/hp0525/)", unsafe_allow_html=True)
 
 #personal dataset explorations
-df
-df['classification']
-df['classification'].value_counts()
+#df
+#df['classification']
+#df['classification'].value_counts()
 
 #display viz
-viz1_chart.display()
+#viz1_chart.display()
 
-viz2_chart.display()
+#viz2_chart.display()
