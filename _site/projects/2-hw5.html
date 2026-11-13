@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by Youssef Raafat
+  Free for personal and commercial use under the MIT license
+  https://github.com/YoussefRaafatNasry/portfolYOU
+  Updates for JPN Fall 2024
+  FALL2024ID17523
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  
+  
+  
+
+  
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Exploratory Analysis of UFO Sightings - Shapes and Sighting Durations Over Time">
+  <meta property="og:description" content="This is a "showcase" project that uses vega-lite for interactive viz!">
+  <meta property="og:image" content="assets/pngs/cars.png">
+
+  <title>Exploratory Analysis of UFO Sightings - Shapes and Sighting Durations Over Time</title>
+  <meta name="description" content="This is a "showcase" project that uses vega-lite for interactive viz!">
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Theme style -->
+  <script src="/assets/js/theme.js"></script>
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.0/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+<body class="h-100 d-flex flex-column">
+
+  <main class="flex-shrink-0 container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-themed">
+
+  <a class="navbar-brand" href="/"><h5><b>IS445 Jekyll Template</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fas fa-1x fa-bars text-themed"></i>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link active" href="/projects/">Projects</a>
+
+      <a class="nav-item nav-link " href="/about/">About</a>
+
+      
+
+      <span id="theme-toggler" class="nav-item nav-link" role="button" onclick="toggleTheme()"></span>
+    </div>
+  </div>
+
+</nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h2 id="introduction">Introduction</h2>
+<p>In this assignment, I explore historical UFO reports to uncover patterns in reported object shapes and the statistical distribution of sighting durations across decades. Using Python, Pandas, Altair, and Vega-Lite, I transform raw data and build two complementary visualizations, including an interactive timeline selection filter.</p>
+
+<hr />
+
+<h2 id="visualization-1-distribution-of-reported-ufo-shapes">Visualization 1: Distribution of Reported UFO Shapes</h2>
+
+<vegachart schema-url="/assets/json/ufo_shapes.json" style="width: 100%"></vegachart>
+
+<h3 id="write-up--design-choices">Write-up &amp; Design Choices</h3>
+<ul>
+  <li><strong>What is being visualized:</strong> This bar chart illustrates the frequency of different reported UFO shapes (such as triangles, circles, lights, and spheres) across the global dataset.</li>
+  <li><strong>Encodings:</strong> I utilized a quantitative encoding on the x-axis (<code class="language-plaintext highlighter-rouge">count():Q</code>) representing the total number of recorded sightings, and a nominal encoding on the y-axis (<code class="language-plaintext highlighter-rouge">shape:N</code>) sorted in descending order of frequency (<code class="language-plaintext highlighter-rouge">sort='-x'</code>) to make comparisons straightforward.</li>
+  <li><strong>Colormap:</strong> The color encoding is tied directly to the sighting count (<code class="language-plaintext highlighter-rouge">count():Q</code>) using the perceptually uniform <code class="language-plaintext highlighter-rouge">viridis</code> color scheme to emphasize higher-frequency shapes through color intensity.</li>
+  <li><strong>Data Transformations:</strong> In my Python notebook, rows containing missing or null values in the <code class="language-plaintext highlighter-rouge">shape</code> column were filtered out using <code class="language-plaintext highlighter-rouge">dropna()</code> to ensure accurate category counts before aggregation.</li>
+</ul>
+
+<hr />
+
+<h2 id="visualization-2-ufo-sighting-durations-over-time-interactive">Visualization 2: UFO Sighting Durations Over Time (Interactive)</h2>
+
+<vegachart schema-url="/assets/json/ufo_interactive_timeline.json" style="width: 100%"></vegachart>
+
+<h3 id="write-up--design-choices-1">Write-up &amp; Design Choices</h3>
+<ul>
+  <li><strong>What is being visualized:</strong> This interactive visualization features a detailed scatter plot showing individual UFO sighting durations (<code class="language-plaintext highlighter-rouge">log10</code> seconds) against the parsed report year, paired with a synchronized summary timeline bar chart below it.</li>
+  <li><strong>Encodings:</strong> The scatter plot uses an ordinal year scale on the x-axis and a quantitative log-scale duration on the y-axis, with points color-encoded by <code class="language-plaintext highlighter-rouge">country:N</code> using a categorical <code class="language-plaintext highlighter-rouge">category10</code> scheme.</li>
+  <li><strong>Interactivity:</strong> I incorporated an interval brush selection (<code class="language-plaintext highlighter-rouge">alt.selection_interval</code>) across the timeline selector chart. When dragging and highlighting a specific range of years on the lower timeline widget, the upper scatter plot dynamically updates to highlight and filter data points corresponding precisely to those selected years, turning grey for unselected periods.</li>
+  <li><strong>Data Transformations:</strong> Extensive data cleaning was performed in Pandas: timestamps were parsed from strings to datetime objects, invalid or zero-second durations were filtered out, and a logarithmic transformation (<code class="language-plaintext highlighter-rouge">np.log10</code>) was applied to <code class="language-plaintext highlighter-rouge">duration_seconds</code> to effectively handle extreme right-skewness and outliers.</li>
+</ul>
+
+<hr />
+
+<h2 id="project-resources">Project Resources</h2>
+<p>You can inspect the underlying code and raw source materials via the links below:</p>
+
+<p><a class="btn" href="https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/ufo-scrubbed-geocoded-time-standardized-00.csv" target="_blank">The Data</a>
+<a class="btn" href="https://github.com/hp0525/hp0525.github.io/blob/main/python_notebooks/HW5_UFO_Analysis.ipynb" target="_blank">The Analysis</a></p>
+
+<script>
+  const vis1Spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/ufo-scrubbed-geocoded-time-standardized-00.csv"},
+    "mark": "bar",
+    "encoding": {
+      "x": {"aggregate": "count", "field": "shape", "type": "quantitative", "title": "Number of Sightings"},
+      "y": {"field": "shape", "type": "nominal", "sort": "-x", "title": "UFO Shape"},
+      "color": {"aggregate": "count", "field": "shape", "type": "quantitative", "scale": {"scheme": "viridis"}, "legend": {"title": "Sighting Count"}}
+    },
+    "width": 600,
+    "height": 400
+  };
+  vegaEmbed("#vis1", vis1Spec);
+
+  const vis2Spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "https://raw.githubusercontent.com/UIUC-iSchool-DataViz/is445_data/main/ufo-scrubbed-geocoded-time-standardized-00.csv"},
+    "transform": [
+      {"filter": "datum.datetime != null && datum.duration_seconds != null"},
+      {"calculate": "toNumber(substring(datum.datetime, 6, 10))", "as": "year"},
+      {"filter": "datum.year >= 1940 && datum.duration_seconds > 0"},
+      {"calculate": "log(datum.duration_seconds) / log(10)", "as": "log_duration"}
+    ],
+    "vconcat": [
+      {
+        "width": 600,
+        "height": 300,
+        "mark": {"type": "circle", "opacity": 0.4, "size": 25},
+        "encoding": {
+          "x": {"field": "year", "type": "ordinal", "title": "Year of Sighting"},
+          "y": {"field": "log_duration", "type": "quantitative", "title": "Log10 Duration (seconds)"},
+          "color": {
+            "condition": {"param": "brush", "field": "country", "type": "nominal", "scale": {"scheme": "category10"}, "title": "Country"},
+            "value": "lightgray"
+          },
+          "tooltip": [{"field": "city"}, {"field": "state"}, {"field": "shape"}, {"field": "duration_described"}]
+        }
+      },
+      {
+        "width": 600,
+        "height": 80,
+        "mark": "bar",
+        "params": [{"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}],
+        "encoding": {
+          "x": {"field": "year", "type": "ordinal", "title": "Drag to Select Year Range"},
+          "y": {"aggregate": "count", "type": "quantitative", "title": "Count"},
+          "color": {"value": "darkblue"}
+        }
+      }
+    ]
+  };
+  vegaEmbed("#vis2", vis2Spec);
+</script>
+
+
+</div>
+  </main>
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>A. P. Corgi</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center"><a class="social mx-1"  href="mailto:username@domain.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.github.com/jnaiman"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.twitter.com/your_username"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#1da1f2'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-twitter fa-1x"></i>
+    </a><a class="social mx-1"  href="https://www.youtube.com/your_channel_name"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#ff0000'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-youtube fa-1x"></i>
+    </a>
+
+</div>
+
+  Theme by <a href="https://github.com/YoussefRaafatNasry/portfolYOU">portfolYOU</a> and <a href="https://github.com/4dcu-be/4dcu.be">4dcu.be</a>.
+
+  
+<!--<small id="attribution">
+    theme <a href="https://github.com/YoussefRaafatNasry/portfolYOU">portfolYOU</a>
+  </small>
+-->
+
+</footer>
+
+
+<!-- Custom page specific js files -->
+  
+    <script src='/assets/js/vega.min.js' type="text/javascript"></script>
+  
+    <script src='/assets/js/vega-lite.min.js' type="text/javascript"></script>
+  
+    <script src='/assets/js/vega-embed.min.js' type="text/javascript"></script>
+  
+    <script src='/assets/js/justcharts.js' type="text/javascript"></script>
+  
+
+
+
+  
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+</body>
+
+<!--
+end of checks! JPN
+-->
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
