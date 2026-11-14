@@ -42,7 +42,7 @@ st.altair_chart(viz1_chart, use_container_width=True)
 # Write-up Paragraph 1
 st.markdown("""
 **Visualization 1 Write-up:** 
-"This bar chart highlights the frequency of different BFRO report classifications within the dataset, providing insight into the reliability and corroboration level associated with various encounters. For design choices, I utilized vertical bar marks with distinct category labels on the x-axis to clearly separate Class A and Class B reports, mapping quantitative count values to the y-axis. I selected the 'tableau10' color scheme to differentiate the classification categories clearly while maintaining a clean aesthetic. If I had more time, I would incorporate a dropdown filter allowing users to subset the classifications by specific geographic regions or states."
+This bar chart highlights the frequency of different BFRO report classifications within the dataset, providing insight into the reliability and corroboration level associated with various encounters. For design choices, I utilized vertical bar marks with distinct category labels on the x-axis to clearly separate Class A and Class B reports, mapping quantitative count values to the y-axis. I selected the 'tableau10' color scheme to differentiate the classification categories clearly while maintaining a clean aesthetic. If I had more time, I would incorporate a dropdown filter allowing users to subset the classifications by specific geographic regions or states. This visualization uses an entirely different dataset and set of plots compared to Homework #5, meaning there is no overlap in data or analysis.
 """)
 
 st.subheader("Visualization 2: Encounter Distribution by Season and State with Interactive Brush")
@@ -80,7 +80,7 @@ st.altair_chart(viz2_chart, use_container_width=True)
 
 st.markdown("""
 **Visualization 2 Write-up:**
-"This linked visualization pairs an interactive seasonal bar chart with an upper scatter plot examining high temperatures versus humidity levels during reported encounters, categorized by state. To handle environmental variables effectively, I mapped meteorological metrics to quantitative axes and used a categorical color scheme ('category10') to distinguish states. The primary interactive feature incorporates an interval brush on the lower seasonal chart, enabling users to highlight specific seasons to dynamically filter the environmental scatter plot above. If I had more time, I would add multi-select state dropdown filters to let users isolate specific states without relying solely on the color legend."
+This linked visualization pairs an interactive seasonal bar chart with an upper scatter plot examining high temperatures versus humidity levels during reported encounters, categorized by state. To handle environmental variables effectively, I mapped meteorological metrics to quantitative axes and used a categorical color scheme ('category10') to distinguish states. The primary interactive feature incorporates an interval brush on the lower seasonal chart, enabling users to highlight specific seasons to dynamically filter the environmental scatter plot above. If I had more time, I would add multi-select state dropdown filters to let users isolate specific states without relying solely on the color legend. This visualization uses an entirely different dataset and set of plots compared to Homework #5, meaning there is no overlap in data or analysis.
 """)
 
 st.markdown("---")
